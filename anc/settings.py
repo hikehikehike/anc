@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "create_hierarchy",
     "user",
+    "django_seed",
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 MIDDLEWARE = [
@@ -72,6 +75,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "anc.wsgi.application"
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -106,6 +111,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
+AUTH_USER_MODEL = "user.User"
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -119,6 +126,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
