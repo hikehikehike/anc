@@ -1,12 +1,13 @@
 import json
 import random
 
+from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django_seed import Seed
 
-from create_hierarchy.forms import EmployeeForm
+from create_hierarchy.forms import EmployeeForm, EmployeeSearchForm
 from create_hierarchy.models import Employee
 
 POSITION = [
@@ -74,6 +75,7 @@ def index(request):
 
 class EmployeeListViews(generic.ListView):
     model = Employee
+    queryset = Employee.objects.all()
     fields = "__all__"
     paginate_by = 50
     ordering = ["id", "position", "name", "hire_date", "email", "manager"]
@@ -83,7 +85,35 @@ class EmployeeListViews(generic.ListView):
         order_by = self.request.GET.get("order_by")
         if order_by in self.ordering:
             return queryset.order_by(order_by)
+
+        search = self.request.GET.get("search", "")
+
+        if search:
+            search_filters = Q()
+            for field in self.model._meta.fields:
+                if hasattr(field, "name"):
+                    if field.is_relation:
+                        search_filters |= Q(
+                            **{f"{field.name}__{field.related_model._meta.pk.name}__iexact": search})
+                    else:
+                        search_filters |= Q(**{f"{field.name}__iexact": search})
+            queryset = queryset.filter(search_filters)
+
         return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(EmployeeListViews, self).get_context_data(**kwargs)
+
+        search = self.request.GET.get(
+            "search", ""
+        )
+        context["search_form"] = EmployeeSearchForm(
+            initial={
+                "search": search
+            }
+        )
+
+        return context
 
 
 class EmployeeUpdateViews(generic.UpdateView):

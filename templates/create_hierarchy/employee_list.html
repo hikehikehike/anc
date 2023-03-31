@@ -1,5 +1,12 @@
 {% extends "base.html" %}
+{% load crispy_forms_filters %}
 {% block content %}
+
+  <form action="" method="get" class="form-inline">
+  {{ search_form|crispy }}
+    <input type="submit" value="🔍">
+  </form>
+
 <table class="table">
   <tr>
     <th><a href="?order_by=name">Name</a></th>
@@ -26,7 +33,7 @@
   <ul class="pagination">
     {% if page_obj.has_previous %}
       <li class="page-item"></li>
-      <a href="?page={{ page_obj.previous_page_number }}" class="page-link">prev</a>
+      <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="page-link">prev</a>
     {% endif %}
 
     <li class="page-item active">
@@ -35,7 +42,7 @@
 
     {% if page_obj.has_next %}
       <li class="page-item"></li>
-      <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
+      <a href="?page={{ page_obj.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" class="page-link">next</a>
     {% endif %}
   </ul>
 {% endif %}
