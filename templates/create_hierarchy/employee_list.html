@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+<table class="table">
+  <tr>
+    <th>Name</th>
+    <th>Position</th>
+    <th>Hire date</th>
+    <th>Email</th>
+    <th>Manager</th>
+    <th>Update</th>
+  </tr>
+    {% for employee in employee_list %}
+      <tr>
+        <td>{{ employee.name }}</td>
+        <td>{{ employee.position }}</td>
+        <td>{{ employee.hire_date }}</td>
+        <td>{{ employee.email }}</td>
+        <td>{{ employee.manager }}</td>
+        <td><a href="{% url "create_hierarchy:employee_update" pk=employee.id %} ">Update</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+  {% if is_paginated %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"></li>
+      <a href="?page={{ page_obj.previous_page_number }}" class="page-link">prev</a>
+    {% endif %}
+
+    <li class="page-item active">
+      <span class="page-link">{{ page_obj.number }} of {{ paginator.num_pages }}</span>
+    </li>
+
+    {% if page_obj.has_next %}
+      <li class="page-item"></li>
+      <a href="?page={{ page_obj.next_page_number }}" class="page-link">next</a>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}
