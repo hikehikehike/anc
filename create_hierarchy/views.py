@@ -78,8 +78,20 @@ class EmployeeListViews(generic.ListView):
     paginate_by = 50
     ordering = ["id", "position", "name", "hire_date", "email", "manager"]
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        order_by = self.request.GET.get("order_by")
+        if order_by in self.ordering:
+            return queryset.order_by(order_by)
+        return queryset
+
 
 class EmployeeUpdateViews(generic.UpdateView):
     model = Employee
     form_class = EmployeeForm
+    success_url = reverse_lazy("create_hierarchy:employee_list")
+
+
+class EmployeeDeleteViews(generic.DeleteView):
+    model = Employee
     success_url = reverse_lazy("create_hierarchy:employee_list")

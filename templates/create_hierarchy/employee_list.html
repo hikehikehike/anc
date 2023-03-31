@@ -2,12 +2,13 @@
 {% block content %}
 <table class="table">
   <tr>
-    <th>Name</th>
-    <th>Position</th>
-    <th>Hire date</th>
-    <th>Email</th>
-    <th>Manager</th>
+    <th><a href="?order_by=name">Name</a></th>
+    <th><a href="?order_by=position">Position</a></th>
+    <th><a href="?order_by=hire_date">Hire date</a></th>
+    <th><a href="?order_by=email">Email</a></th>
+    <th><a href="?order_by=manager">Manager</a></th>
     <th>Update</th>
+    <th>Delete</th>
   </tr>
     {% for employee in employee_list %}
       <tr>
@@ -17,6 +18,7 @@
         <td>{{ employee.email }}</td>
         <td>{{ employee.manager }}</td>
         <td><a href="{% url "create_hierarchy:employee_update" pk=employee.id %} ">Update</a></td>
+        <td><a href="{% url "create_hierarchy:employee_delete" pk=employee.id %} ">Delete</a></td>
       </tr>
     {% endfor %}
   </table>
