@@ -2,12 +2,6 @@
 
 Django service for generating fake Hierarchy of Employee
 
-Test user
-
-Login: admin
-
-Password: admin
-
 ## Installation
 
 Python3 must be already installed
@@ -18,8 +12,15 @@ python3 -m venv venv
 sourse venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
+python manage.py createsuperuser
 python manage.py runserver
 ```
+
+### How to use
+
+1. Press login
+2. Generate fake Employees
+3. Now you can see hierarchy and list of employee
 
 ### Features
 
