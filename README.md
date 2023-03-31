@@ -13,7 +13,7 @@ Password: admin
 Python3 must be already installed
 
 ```shell
-git clone https://github.com/hikehikehike/fake_csv
+git clone https://github.com/hikehikehike/anc/tree/main
 python3 -m venv venv
 sourse venv/bin/activate
 pip install -r requirements.txt
