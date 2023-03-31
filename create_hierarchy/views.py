@@ -1,6 +1,8 @@
 import json
 import random
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -47,6 +49,7 @@ def generate_json():
         json.dump(tree_data, outfile)
 
 
+@login_required
 def generate_db(request):
     delete_db_and_create_god()
 
@@ -116,12 +119,12 @@ class EmployeeListViews(generic.ListView):
         return context
 
 
-class EmployeeUpdateViews(generic.UpdateView):
+class EmployeeUpdateViews(LoginRequiredMixin, generic.UpdateView):
     model = Employee
     form_class = EmployeeForm
     success_url = reverse_lazy("create_hierarchy:employee_list")
 
 
-class EmployeeDeleteViews(generic.DeleteView):
+class EmployeeDeleteViews(LoginRequiredMixin, generic.DeleteView):
     model = Employee
     success_url = reverse_lazy("create_hierarchy:employee_list")
